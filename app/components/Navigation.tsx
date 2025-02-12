@@ -6,7 +6,7 @@ import { useRef } from "react";
 
 type NavItem = {
   name: string;
-  route: string;
+  route: string | NavItem[];
 };
 
 const navItems: NavItem[] = [
