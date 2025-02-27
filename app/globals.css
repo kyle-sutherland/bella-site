@@ -4,18 +4,34 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #000000;
+  --link: #0000ff;
+  --visited: #800080;
 }
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #000000;
+    --foreground: #ffffff;
+    --link: #0000ff;
+    --visited: #800080;
   }
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Times, serif;
+}
+
+.link {
+  color: var(--link);
+}
+
+.link:visited {
+  color: var(--visited);
+}
+
+.horizontalRule {
+  border-top: 1px solid var(--foreground);
 }
