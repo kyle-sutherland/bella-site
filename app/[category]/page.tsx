@@ -38,7 +38,7 @@ export default async function CategoryRoute({
 
   if (data.length === 0) return <div>No Posts In this category</div>;
 
-  const { name, description } = data[0]?.attributes.category.data.attributes;
+  const { name, description } = data[0]?.category;
 
   return (
     <div>

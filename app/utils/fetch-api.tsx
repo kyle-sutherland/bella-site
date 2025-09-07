@@ -1,4 +1,4 @@
-// ./app/[lang]/utils/fetch-api.tsx
+// ./app/utils/fetch-api.tsx
 import qs from "qs";
 import { getStrapiURL } from "./api-helpers";
 
@@ -19,6 +19,7 @@ export async function fetchAPI(
 
     // Build request URL
     const queryString = qs.stringify(urlParamsObject);
+    console.log(queryString);
     const requestUrl = `${getStrapiURL(
       `/api${path}${queryString ? `?${queryString}` : ""}`,
     )}`;
@@ -26,6 +27,7 @@ export async function fetchAPI(
     // Trigger API call
     const response = await fetch(requestUrl, mergedOptions);
     const data = await response.json();
+    console.log(data);
     return data;
   } catch (error) {
     console.error(error);
