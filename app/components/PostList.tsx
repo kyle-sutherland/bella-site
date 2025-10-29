@@ -13,36 +13,22 @@ interface Article {
   createdAt: string;
   updatedAt: string;
   publishedAt: string;
-  // Make cover optional since it may not appear in the API response
+  // Cover is optional since it may not appear in the API response
   cover?: {
-    data?: {
-      attributes: {
-        url: string;
-      };
-    };
+    url?: string;
   };
-  // Make category optional since it may not appear in the API response
-  category?: {
-    data?: {
-      attributes: {
-        name: string;
-        slug: string;
-      };
-    };
-  };
+  // Category is an array in Strapi v4/v5
+  category?: Array<{
+    id: number;
+    name: string;
+    slug: string;
+    documentId: string;
+  }>;
   // Make authorsBio optional since it may not appear in the API response
   authorsBio?: {
-    data?: {
-      attributes: {
-        name: string;
-        avatar: {
-          data: {
-            attributes: {
-              url: string;
-            };
-          };
-        };
-      };
+    name: string;
+    avatar?: {
+      url?: string;
     };
   };
 }
@@ -59,19 +45,19 @@ export default function PostList({
       <div className="grid justify-center grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {articles.map((article) => {
           // Safe access to cover - may not exist in API response
-          const imageUrl = article.cover?.data?.attributes?.url
-            ? getStrapiMedia(article.cover.data.attributes.url)
+          const imageUrl = article.cover?.url
+            ? getStrapiMedia(article.cover.url)
             : null;
 
-          // Safe access to category - may not exist in API response
-          const category = article.category?.data?.attributes;
+          // Safe access to category - it's an array in v4/v5
+          const category = article.category?.[0];
 
           // Safe access to authorsBio - may not exist in API response
-          const authorsBio = article.authorsBio?.data?.attributes;
+          const authorsBio = article.authorsBio;
 
           // Safe access to avatar - may not exist in API response
-          const avatarUrl = authorsBio?.avatar?.data?.attributes?.url
-            ? getStrapiMedia(authorsBio.avatar.data.attributes.url)
+          const avatarUrl = authorsBio?.avatar?.url
+            ? getStrapiMedia(authorsBio.avatar.url)
             : null;
 
           return (

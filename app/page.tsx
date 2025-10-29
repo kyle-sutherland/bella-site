@@ -34,6 +34,7 @@ export default function BlogPage() {
           page: page,
           pageSize: pageSize,
         },
+        populate: ["category"],
       };
 
       const options = token

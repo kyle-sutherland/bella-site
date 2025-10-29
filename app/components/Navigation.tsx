@@ -16,11 +16,11 @@ const navItems: NavItem[] = [
   },
   {
     name: "tattoos",
-    route: "/tattoos",
+    route: "/tattoo",
   },
   {
     name: "paintings",
-    route: "/paintings",
+    route: "/painting",
   },
   {
     name: "more",

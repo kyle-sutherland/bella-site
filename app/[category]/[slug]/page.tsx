@@ -31,26 +31,27 @@ async function getMetaData(slug: string) {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const meta = await getMetaData(params.slug);
-  const metadata = meta[0].attributes;
+  const { slug } = await params;
+  const meta = await getMetaData(slug);
+  const metadata = meta[0];
 
   return {
-    title: metadata.metaTitle,
-    description: metadata.metaDescription,
+    title: metadata.title || "Article",
+    description: metadata.description || "",
   };
 }
 
 export default async function PostRoute({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const { slug } = params;
-  const data = await getPostBySlug(slug);
-  if (data.length === 0) return <h2>no post found</h2>;
-  return <Post data={data[0]} />;
+  const { slug } = await params;
+  const response = await getPostBySlug(slug);
+  if (!response.data || response.data.length === 0) return <h2>no post found</h2>;
+  return <Post data={response.data[0]} />;
 }
 
 export async function generateStaticParams() {
@@ -65,17 +66,20 @@ export async function generateStaticParams() {
     options,
   );
 
-  return articleResponse.data.map(
-    (article: {
-      attributes: {
+  return articleResponse.data
+    .filter(
+      (article: {
         slug: string;
-        category: {
-          slug: string;
-        };
-      };
-    }) => ({
-      slug: article.attributes.slug,
-      category: article.attributes.slug,
-    }),
-  );
+        category?: Array<{ slug: string }>;
+      }) => article.category?.[0]?.slug,
+    )
+    .map(
+      (article: {
+        slug: string;
+        category: Array<{ slug: string }>;
+      }) => ({
+        slug: article.slug,
+        category: article.category[0].slug,
+      }),
+    );
 }

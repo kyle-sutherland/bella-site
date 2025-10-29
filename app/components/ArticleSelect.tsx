@@ -3,21 +3,16 @@ import Link from "next/link";
 
 interface Category {
   id: number;
-  attributes: {
-    name: string;
-    slug: string;
-    articles: {
-      data: Array<{}>;
-    };
-  };
+  name: string;
+  slug: string;
+  documentId: string;
 }
 
 interface Article {
   id: number;
-  attributes: {
-    title: string;
-    slug: string;
-  };
+  title: string;
+  slug: string;
+  documentId: string;
 }
 
 function selectedFilter(current: string, selected: string) {
@@ -34,8 +29,8 @@ export default function ArticleSelect({
   categories: Category[];
   articles: Article[];
   params: {
-    slug: string;
-    category: string;
+    slug?: string;
+    category?: string;
   };
 }) {
   return (
@@ -45,16 +40,16 @@ export default function ArticleSelect({
       <div>
         <div className="flex flex-wrap py-6 space-x-2 dark:border-gray-400">
           {categories.map((category: Category) => {
-            if (category.attributes.articles.data.length === 0) return null;
             return (
               <Link
-                href={`/${category.attributes.slug}`}
+                key={category.id}
+                href={`/${category.slug}`}
                 className={selectedFilter(
-                  category.attributes.slug,
-                  params.category,
+                  category.slug,
+                  params.category || "",
                 )}
               >
-                #{category.attributes.name}
+                #{category.name}
               </Link>
             );
           })}
@@ -68,16 +63,17 @@ export default function ArticleSelect({
           <ul className="ml-4 space-y-1 list-disc">
             {articles.map((article: Article) => {
               return (
-                <li>
+                <li key={article.id}>
                   <Link
                     rel="noopener noreferrer"
-                    href={`/${params.category}/${article.attributes.slug}`}
+                    href={`/${params.category}/${article.slug}`}
                     className={`${
-                      params.slug === article.attributes.slug &&
-                      "text-violet-400"
+                      params.slug === article.slug
+                        ? "text-violet-400"
+                        : ""
                     }  hover:underline hover:text-violet-400 transition-colors duration-200`}
                   >
-                    {article.attributes.title}
+                    {article.title}
                   </Link>
                 </li>
               );

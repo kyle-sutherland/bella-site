@@ -20,7 +20,9 @@ async function fetchSideMenuData(filter: string) {
         ? {
             filters: {
               category: {
-                name: filter,
+                slug: {
+                  $eq: filter,
+                },
               },
             },
           }
@@ -29,31 +31,30 @@ async function fetchSideMenuData(filter: string) {
     );
 
     return {
-      articles: articlesResponse.data,
-      categories: categoriesResponse.data,
+      articles: articlesResponse?.data || [],
+      categories: categoriesResponse?.data || [],
     };
   } catch (error) {
     console.error(error);
+    return {
+      articles: [],
+      categories: [],
+    };
   }
 }
 
 interface Category {
   id: number;
-  attributes: {
-    name: string;
-    slug: string;
-    articles: {
-      data: Array<{}>;
-    };
-  };
+  name: string;
+  slug: string;
+  documentId: string;
 }
 
 interface Article {
   id: number;
-  attributes: {
-    title: string;
-    slug: string;
-  };
+  title: string;
+  slug: string;
+  documentId: string;
 }
 
 interface Data {
@@ -66,12 +67,12 @@ export default async function LayoutRoute({
   children,
 }: {
   children: React.ReactNode;
-  params: {
+  params: Promise<{
     slug: string;
     category: string;
-  };
+  }>;
 }) {
-  const { category } = params;
+  const { category } = await params;
   const { categories, articles } = (await fetchSideMenuData(category)) as Data;
 
   return (
@@ -102,17 +103,20 @@ export async function generateStaticParams() {
     options,
   );
 
-  return articleResponse.data.map(
-    (article: {
-      attributes: {
+  return articleResponse.data
+    .filter(
+      (article: {
         slug: string;
-        category: {
-          slug: string;
-        };
-      };
-    }) => ({
-      slug: article.attributes.slug,
-      category: article.attributes.slug,
-    }),
-  );
+        category?: Array<{ slug: string }>;
+      }) => article.category?.[0]?.slug,
+    )
+    .map(
+      (article: {
+        slug: string;
+        category: Array<{ slug: string }>;
+      }) => ({
+        slug: article.slug,
+        category: article.category[0].slug,
+      }),
+    );
 }
