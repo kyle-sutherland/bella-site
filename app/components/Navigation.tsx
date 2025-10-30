@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRef } from "react";
@@ -9,35 +9,53 @@ type NavItem = {
   route: string;
 };
 
-const navItems: NavItem[] = [
-  {
-    name: "home",
-    route: "/",
-  },
-  {
-    name: "tattoos",
-    route: "/tattoo",
-  },
-  {
-    name: "paintings",
-    route: "/painting",
-  },
-  {
-    name: "more",
-    route: "/more",
-  },
-  {
-    name: "even MORE!",
-    route: "/more",
-  },
-];
+type Category = {
+  id: number;
+  name: string;
+  slug: string;
+};
 
-export default function Navigation() {
+interface NavigationProps {
+  categories?: Category[];
+}
+
+function buildNavItems(categories: Category[] = []): NavItem[] {
+  // Start with home link
+  const items: NavItem[] = [
+    {
+      name: "home",
+      route: "/",
+    },
+  ];
+
+  // Add dynamic category links
+  if (categories && categories.length > 0) {
+    const categoryItems = categories.map((category) => ({
+      name: category.name,
+      route: `/${category.slug}`,
+    }));
+    items.push(...categoryItems);
+  }
+
+  // Add info link at the end
+  items.push({
+    name: "info",
+    route: "/info",
+  });
+
+  return items;
+}
+
+export default function Navigation({ categories = [] }: NavigationProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+
+  const navItems = useMemo(() => {
+    return buildNavItems(categories);
+  }, [categories]);
 
   useEffect(() => {
     setIsMobileMenuOpen(false);

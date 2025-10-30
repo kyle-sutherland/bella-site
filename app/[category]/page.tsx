@@ -1,7 +1,6 @@
 import PageHeader from "@/app/components/PageHeader";
 import { fetchAPI } from "@/app/utils/fetch-api";
 import PostList from "@/app/components/PostList";
-import Navigation from "@/app/components/Navigation";
 
 // Force dynamic rendering during development
 export const revalidate = 0;
@@ -43,7 +42,6 @@ export default async function CategoryRoute({
 
   return (
     <div>
-      <Navigation />
       <PageHeader heading={name} text={description} />
       <PostList data={filteredData} />
     </div>
