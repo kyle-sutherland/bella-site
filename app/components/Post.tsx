@@ -11,40 +11,65 @@ interface Article {
     url?: string;
   };
   content?: any[];
+  images?: Array<{
+    id?: number;
+    url?: string;
+    alternativeText?: string;
+    caption?: string;
+  }>;
   publishedAt: string;
 }
 
 export default function Post({ data }: { data: Article }) {
-  const { title, description, publishedAt, cover } = data;
+  const { title, description, publishedAt, cover, images } = data;
   const imageUrl = getStrapiMedia(cover?.url);
 
   return (
-    <article className="space-y-8 dark:bg-black dark:text-gray-50">
+    <article style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
       {imageUrl && (
         <Image
           src={imageUrl}
           alt="article cover image"
           width={400}
           height={400}
-          className="w-full h-96 object-cover rounded-lg"
+          style={{ width: "100%", height: "auto", objectFit: "cover", border: "0px solid #000" }}
         />
       )}
-      <div className="space-y-6">
-        <h1 className="leading-tight text-5xl font-bold ">{title}</h1>
-        <div className="flex flex-col items-start justify-between w-full md:flex-row md:items-center dark:text-gray-400">
-          <div className="flex items-center md:space-x-2">
-            <p className="text-md dark:text-violet-400">
-              {formatDate(publishedAt)}
-            </p>
-          </div>
+      <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+        <h1 style={{ lineHeight: 1.2, fontSize: "48px", fontWeight: "bold" }}>{title}</h1>
+        <div style={{ display: "flex", flexDirection: "column", gap: "8px", borderTop: "1px solid #000", paddingTop: "8px" }}>
+          <p style={{ fontSize: "16px" }}>
+            {formatDate(publishedAt)}
+          </p>
         </div>
       </div>
 
-      <div className="dark:text-gray-100">
-        <p>{description}</p>
+      <div>
+        <p style={{ marginBottom: "16px" }}>{description}</p>
 
         {data.content && data.content.map((section: any, index: number) =>
           postRenderer(section, index),
+        )}
+
+        {images && images.length > 0 && (
+          <>
+            {postRenderer(
+              {
+                __component: "shared.slider",
+                files: {
+                  data: images.map((img) => ({
+                    id: img.id,
+                    attributes: {
+                      alternativeText: img.alternativeText,
+                      caption: img.caption,
+                      url: img.url,
+                    },
+                  })),
+                },
+              },
+              data.content?.length || 0
+            )}
+          </>
         )}
       </div>
     </article>

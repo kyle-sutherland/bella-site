@@ -7,10 +7,7 @@ async function getPostBySlug(slug: string) {
   const path = `/blogs`;
   const urlParamsObject = {
     filters: { slug },
-    populate: {
-      cover: { fields: ["url"] },
-      category: { fields: ["name"] },
-    },
+    populate: "*",
   };
   const options = { headers: { Authorization: `Bearer ${token}` } };
   const response = await fetchAPI(path, urlParamsObject, options);

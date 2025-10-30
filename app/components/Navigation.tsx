@@ -61,7 +61,7 @@ export default function Navigation() {
 
   return (
     <>
-      <nav className="fixed top-0 w-full z-50 transition-all duration-300">
+      <nav className="absolute top-0 w-full z-50 transition-all duration-300">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex justify-between items-center pt-4">
             <div className="hidden md:flex space-x-8">

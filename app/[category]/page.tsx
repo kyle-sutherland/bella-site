@@ -1,6 +1,7 @@
 import PageHeader from "@/app/components/PageHeader";
 import { fetchAPI } from "@/app/utils/fetch-api";
 import PostList from "@/app/components/PostList";
+import Navigation from "@/app/components/Navigation";
 
 // Force dynamic rendering during development
 export const revalidate = 0;
@@ -35,11 +36,6 @@ export default async function CategoryRoute({
     post.category?.some((cat: any) => cat.slug === category)
   ) || [];
 
-  console.log("Category param:", category);
-  console.log("Total posts:", response.data?.length);
-  console.log("Filtered posts:", filteredData.length);
-  console.log("Filtered data:", filteredData);
-
   if (!filteredData || filteredData.length === 0) return <div>No Posts In this category</div>;
 
   const categoryData = filteredData[0]?.category?.[0] || {};
@@ -47,6 +43,7 @@ export default async function CategoryRoute({
 
   return (
     <div>
+      <Navigation />
       <PageHeader heading={name} text={description} />
       <PostList data={filteredData} />
     </div>

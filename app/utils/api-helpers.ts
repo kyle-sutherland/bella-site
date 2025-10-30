@@ -4,8 +4,8 @@ export function getStrapiURL(path = "") {
   return `${process.env.NEXT_PUBLIC_STRAPI_API_URL || "http://localhost:1337"}${path}`;
 }
 
-export function getStrapiMedia(url: string | null) {
-  if (url == null) {
+export function getStrapiMedia(url: string | null | undefined) {
+  if (url == null || url == undefined) {
     return null;
   }
 

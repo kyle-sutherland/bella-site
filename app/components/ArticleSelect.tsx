@@ -17,8 +17,8 @@ interface Article {
 
 function selectedFilter(current: string, selected: string) {
   return current === selected
-    ? "px-3 py-1 rounded-lg hover:underline dark:bg-violet-700 dark:text-gray-100"
-    : "px-3 py-1 rounded-lg hover:underline dark:bg-violet-400 dark:text-gray-900";
+    ? { border: "1px solid #000", padding: "4px 8px", fontWeight: "bold" }
+    : { border: "1px solid #000", padding: "4px 8px", fontWeight: "normal" };
 }
 
 export default function ArticleSelect({
@@ -34,17 +34,18 @@ export default function ArticleSelect({
   };
 }) {
   return (
-    <div className="p-4 rounded-lg dark:bg-gray-900 min-h-[365px] relative">
-      <h4 className="text-xl font-semibold">Browse By Category</h4>
+    <div style={{ padding: "16px", border: "1px solid #000", minHeight: "365px", position: "relative" }}>
+      <h4 style={{ fontSize: "20px", fontWeight: "bold", marginBottom: "16px" }}>Browse By Category</h4>
 
       <div>
-        <div className="flex flex-wrap py-6 space-x-2 dark:border-gray-400">
+        <div style={{ display: "flex", flexWrap: "wrap", paddingTop: "24px", paddingBottom: "24px", gap: "8px", borderBottom: "1px solid #000", marginBottom: "16px" }}>
           {categories.map((category: Category) => {
             return (
               <Link
                 key={category.id}
                 href={`/${category.slug}`}
-                className={selectedFilter(
+                className="link"
+                style={selectedFilter(
                   category.slug,
                   params.category || "",
                 )}
@@ -53,25 +54,25 @@ export default function ArticleSelect({
               </Link>
             );
           })}
-          <Link href={"/"} className={selectedFilter("", "filter")}>
+          <Link href={"/"} className="link" style={selectedFilter("", "filter")}>
             #all
           </Link>
         </div>
 
-        <div className="space-y-2">
-          <h4 className="text-lg font-semibold">Other Posts You May Like</h4>
-          <ul className="ml-4 space-y-1 list-disc">
+        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+          <h4 style={{ fontSize: "18px", fontWeight: "bold" }}>Other Posts You May Like</h4>
+          <ul style={{ marginLeft: "24px", display: "flex", flexDirection: "column", gap: "8px" }}>
             {articles.map((article: Article) => {
               return (
                 <li key={article.id}>
                   <Link
                     rel="noopener noreferrer"
                     href={`/${params.category}/${article.slug}`}
-                    className={`${
-                      params.slug === article.slug
-                        ? "text-violet-400"
-                        : ""
-                    }  hover:underline hover:text-violet-400 transition-colors duration-200`}
+                    className="link"
+                    style={{
+                      textDecoration: params.slug === article.slug ? "underline" : "none",
+                      fontWeight: params.slug === article.slug ? "bold" : "normal",
+                    }}
                   >
                     {article.title}
                   </Link>
