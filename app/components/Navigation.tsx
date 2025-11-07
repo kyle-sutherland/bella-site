@@ -47,7 +47,6 @@ function buildNavItems(categories: Category[] = []): NavItem[] {
 }
 
 export default function Navigation({ categories = [] }: NavigationProps) {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
   const menuRef = useRef<HTMLDivElement>(null);
@@ -79,7 +78,7 @@ export default function Navigation({ categories = [] }: NavigationProps) {
 
   return (
     <>
-      <nav className="absolute top-0 w-full z-50 transition-all duration-300">
+      <nav className=" top-0 w-full z-50 transition-all duration-300">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex justify-between items-center pt-4">
             <div className="hidden md:flex space-x-8">

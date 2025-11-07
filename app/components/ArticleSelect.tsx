@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Win95Button from "./win95/Win95Button";
 
 interface Category {
   id: number;
@@ -15,12 +16,6 @@ interface Article {
   documentId: string;
 }
 
-function selectedFilter(current: string, selected: string) {
-  return current === selected
-    ? { border: "1px solid #000", padding: "4px 8px", fontWeight: "bold" }
-    : { border: "1px solid #000", padding: "4px 8px", fontWeight: "normal" };
-}
-
 export default function ArticleSelect({
   categories,
   articles,
@@ -34,33 +29,34 @@ export default function ArticleSelect({
   };
 }) {
   return (
-    <div style={{ padding: "16px", border: "1px solid #000", minHeight: "365px", position: "relative" }}>
-      <h4 style={{ fontSize: "20px", fontWeight: "bold", marginBottom: "16px" }}>Browse By Category</h4>
+    <div className="win95-panel" style={{ minHeight: "365px", position: "relative" }}>
+      <h4 className="win95-font-bold" style={{ fontSize: "16px", marginBottom: "16px" }}>Browse By Category</h4>
 
       <div>
-        <div style={{ display: "flex", flexWrap: "wrap", paddingTop: "24px", paddingBottom: "24px", gap: "8px", borderBottom: "1px solid #000", marginBottom: "16px" }}>
+        <div className="win95-panel-sunken" style={{ display: "flex", flexWrap: "wrap", paddingTop: "12px", paddingBottom: "12px", gap: "6px", marginBottom: "16px" }}>
           {categories.map((category: Category) => {
+            const isSelected = category.slug === params.category;
             return (
               <Link
                 key={category.id}
                 href={`/${category.slug}`}
-                className="link"
-                style={selectedFilter(
-                  category.slug,
-                  params.category || "",
-                )}
+                style={{ textDecoration: "none" }}
               >
-                #{category.name}
+                <Win95Button variant={isSelected ? "default" : "normal"}>
+                  #{category.name}
+                </Win95Button>
               </Link>
             );
           })}
-          <Link href={"/"} className="link" style={selectedFilter("", "filter")}>
-            #all
+          <Link href={"/"} style={{ textDecoration: "none" }}>
+            <Win95Button>
+              #all
+            </Win95Button>
           </Link>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-          <h4 style={{ fontSize: "18px", fontWeight: "bold" }}>Other Posts You May Like</h4>
+          <h4 className="win95-font-bold" style={{ fontSize: "14px" }}>Other Posts You May Like</h4>
           <ul style={{ marginLeft: "24px", display: "flex", flexDirection: "column", gap: "8px" }}>
             {articles.map((article: Article) => {
               return (

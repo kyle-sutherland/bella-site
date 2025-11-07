@@ -3,12 +3,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { getStrapiMedia, formatDate } from "../utils/api-helpers";
 
+interface ContentSection {
+  __component: string;
+  [key: string]: unknown;
+}
+
 interface Article {
   id: number;
   documentId: string;
   title: string;
   description: string;
-  content: any[];
+  content: ContentSection[];
   slug: string;
   createdAt: string;
   updatedAt: string;

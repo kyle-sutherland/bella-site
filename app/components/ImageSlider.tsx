@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { getStrapiMedia } from "../utils/api-helpers";
 import Image from "next/image";
+import Win95Button from "./win95/Win95Button";
 
 interface ImageType {
   id: number;
@@ -36,7 +37,7 @@ export default function ImageSlider({ data }: { data: SlidShowProps }) {
   };
 
   return (
-    <div style={{ border: "1px solid #000", margin: "16px 0", padding: "16px" }}>
+    <div className="win95-panel" style={{ margin: "16px 0" }}>
       {imageUrl && (
         <a
           href={imageUrl}
@@ -50,55 +51,43 @@ export default function ImageSlider({ data }: { data: SlidShowProps }) {
             width={600}
             alt={currentImage.attributes.alternativeText || "image"}
             src={imageUrl}
+            style={{ border: "1px solid #000" }}
           />
         </a>
       )}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
-        <a
-          href="#"
-          onClick={(e) => {
-            e.preventDefault();
-            goToPrevious();
-          }}
-          className="link"
-          style={{ cursor: "pointer" }}
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+        <Win95Button
+          onClick={goToPrevious}
+          aria-label="Previous image"
         >
-          &lt; Back
-        </a>
+          ◄ Previous
+        </Win95Button>
 
-        <div style={{ display: "flex", gap: "8px", justifyContent: "center" }}>
+        <div style={{ display: "flex", gap: "4px", justifyContent: "center" }}>
           {images.map((_, index) => (
-            <a
+            <Win95Button
               key={index}
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                setCurrentIndex(index);
-              }}
-              className="link"
-              style={{
-                cursor: "pointer",
-                fontWeight: currentIndex === index ? "bold" : "normal",
-                textDecoration: currentIndex === index ? "underline" : "none",
-              }}
+              onClick={() => setCurrentIndex(index)}
+              variant={currentIndex === index ? "default" : "normal"}
+              aria-label={`Go to image ${index + 1}`}
             >
               {index + 1}
-            </a>
+            </Win95Button>
           ))}
         </div>
 
-        <a
-          href="#"
-          onClick={(e) => {
-            e.preventDefault();
-            goToNext();
-          }}
-          className="link"
-          style={{ cursor: "pointer" }}
+        <Win95Button
+          onClick={goToNext}
+          aria-label="Next image"
         >
-          Next &gt;
-        </a>
+          Next ►
+        </Win95Button>
       </div>
+      {currentImage.attributes.caption && (
+        <div className="win95-panel-sunken" style={{ padding: "8px", fontSize: "12px", marginTop: "8px" }}>
+          {currentImage.attributes.caption}
+        </div>
+      )}
     </div>
   );
 }

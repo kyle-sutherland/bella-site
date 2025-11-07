@@ -2,6 +2,11 @@ import { formatDate, getStrapiMedia } from "@/app/utils/api-helpers";
 import { postRenderer } from "@/app/utils/post-renderer";
 import Image from "next/image";
 
+interface ContentSection {
+  __component: string;
+  [key: string]: unknown;
+}
+
 interface Article {
   id: number;
   title: string;
@@ -10,7 +15,7 @@ interface Article {
   cover?: {
     url?: string;
   };
-  content?: any[];
+  content?: ContentSection[];
   images?: Array<{
     id?: number;
     url?: string;
@@ -47,7 +52,7 @@ export default function Post({ data }: { data: Article }) {
       <div>
         <p style={{ marginBottom: "16px" }}>{description}</p>
 
-        {data.content && data.content.map((section: any, index: number) =>
+        {data.content && data.content.map((section: ContentSection, index: number) =>
           postRenderer(section, index),
         )}
 

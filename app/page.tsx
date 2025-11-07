@@ -5,6 +5,32 @@ import Loader from "./components/Loader";
 import PostList from "./components/PostList";
 import PageHeader from "./components/PageHeader";
 
+interface ContentSection {
+  __component: string;
+  [key: string]: unknown;
+}
+
+interface Article {
+  id: number;
+  documentId: string;
+  title: string;
+  description: string;
+  content: ContentSection[];
+  slug: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  cover?: {
+    url?: string;
+  };
+  category?: Array<{
+    id: number;
+    name: string;
+    slug: string;
+    documentId: string;
+  }>;
+}
+
 interface Meta {
   pagination: {
     page: number;
@@ -16,7 +42,7 @@ interface Meta {
 
 export default function BlogPage() {
   const [meta, setMeta] = useState<Meta | undefined>();
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<Article[]>([]);
   const [isLoading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 

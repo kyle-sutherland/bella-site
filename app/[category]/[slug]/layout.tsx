@@ -72,7 +72,8 @@ export default async function LayoutRoute({
     category: string;
   }>;
 }) {
-  const { category } = await params;
+  const resolvedParams = await params;
+  const { category } = resolvedParams;
   const { categories, articles } = (await fetchSideMenuData(category)) as Data;
 
   return (
@@ -83,7 +84,7 @@ export default async function LayoutRoute({
           <ArticleSelect
             categories={categories}
             articles={articles}
-            params={params}
+            params={resolvedParams}
           />
         </aside>
       </div>
