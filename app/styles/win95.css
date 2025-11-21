@@ -105,7 +105,7 @@
 /* Raised 3D effect - for buttons, panels */
 .win95-border-raised {
   border-style: solid;
-  border-width: 2px;
+  border-width: 1px;
   border-top-color: var(--win95-button-highlight);
   border-left-color: var(--win95-button-highlight);
   border-right-color: var(--win95-button-dark-shadow);
@@ -118,7 +118,7 @@
 /* Sunken 3D effect - for pressed buttons, inputs */
 .win95-border-sunken {
   border-style: solid;
-  border-width: 2px;
+  border-width: 1px;
   border-top-color: var(--win95-button-dark-shadow);
   border-left-color: var(--win95-button-dark-shadow);
   border-right-color: var(--win95-button-highlight);
@@ -156,7 +156,7 @@
   background-color: var(--win95-button-face);
   color: var(--win95-button-text);
   border-style: solid;
-  border-width: 2px;
+  border-width: 1px;
   border-top-color: var(--win95-button-highlight);
   border-left-color: var(--win95-button-highlight);
   border-right-color: var(--win95-button-dark-shadow);
@@ -194,7 +194,7 @@
 }
 
 .win95-button-default {
-  border: 3px solid var(--win95-button-dark-shadow);
+  border: 2px solid var(--win95-button-dark-shadow);
   padding: 3px 11px;
 }
 
@@ -210,7 +210,7 @@
   background-color: var(--win95-input-bg);
   color: var(--win95-input-text);
   border-style: solid;
-  border-width: 2px;
+  border-width: 1px;
   border-top-color: var(--win95-button-dark-shadow);
   border-left-color: var(--win95-button-dark-shadow);
   border-right-color: var(--win95-button-highlight);
@@ -242,7 +242,7 @@
   background-color: var(--win95-input-bg);
   color: var(--win95-input-text);
   border-style: solid;
-  border-width: 2px;
+  border-width: 1px;
   border-top-color: var(--win95-button-dark-shadow);
   border-left-color: var(--win95-button-dark-shadow);
   border-right-color: var(--win95-button-highlight);
@@ -269,7 +269,7 @@
 .win95-panel {
   background-color: var(--win95-button-face);
   border-style: solid;
-  border-width: 2px;
+  border-width: 1px;
   border-top-color: var(--win95-button-highlight);
   border-left-color: var(--win95-button-highlight);
   border-right-color: var(--win95-button-dark-shadow);
@@ -283,7 +283,7 @@
 .win95-panel-sunken {
   background-color: var(--win95-button-face);
   border-style: solid;
-  border-width: 2px;
+  border-width: 1px;
   border-top-color: var(--win95-button-dark-shadow);
   border-left-color: var(--win95-button-dark-shadow);
   border-right-color: var(--win95-button-highlight);
@@ -301,7 +301,7 @@
 .win95-window {
   background-color: var(--win95-window-bg);
   border-style: solid;
-  border-width: 3px;
+  border-width: 2px;
   border-top-color: var(--win95-button-highlight);
   border-left-color: var(--win95-button-highlight);
   border-right-color: var(--win95-button-dark-shadow);
@@ -374,7 +374,7 @@
   height: 13px;
   background-color: var(--win95-input-bg);
   border-style: solid;
-  border-width: 2px;
+  border-width: 1px;
   border-top-color: var(--win95-button-dark-shadow);
   border-left-color: var(--win95-button-dark-shadow);
   border-right-color: var(--win95-button-highlight);

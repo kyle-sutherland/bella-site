@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getStrapiMedia, formatDate } from "../utils/api-helpers";
+import Win95Panel from "./win95/Win95Panel";
 
 interface ContentSection {
   __component: string;
@@ -36,6 +37,8 @@ interface Article {
       url?: string;
     };
   };
+  // Optional custom icon for the title bar
+  icon?: string;
 }
 
 export default function PostList({
@@ -72,57 +75,107 @@ export default function PostList({
               style={{
                 maxWidth: "400px",
                 margin: "0 auto",
-                border: "1px solid #000",
-                display: "flex",
-                flexDirection: "column",
                 textDecoration: "none",
-                backgroundColor: "#fff",
-                overflow: "hidden"
+                display: "block"
               }}
             >
-              {imageUrl && (
-                <Image
-                  alt="presentation"
-                  width="240"
-                  height="240"
-                  className="object-cover w-full h-44"
-                  src={imageUrl}
-                />
-              )}
-              <div style={{ padding: "16px", display: "flex", flexDirection: "column", gap: "8px", position: "relative" }}>
-                {avatarUrl && (
-                  <Image
-                    alt="avatar"
-                    width="80"
-                    height="80"
-                    src={avatarUrl}
-                    style={{
-                      height: "64px",
-                      width: "64px",
-                      objectFit: "cover",
-                      position: "absolute",
-                      top: "-32px",
-                      right: "16px",
-                      border: "1px solid #000"
-                    }}
-                  />
-                )}
-
-                <h3 style={{ fontSize: "20px", fontWeight: "bold", textDecoration: "underline" }}>
-                  {article.title}
-                </h3>
-
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "12px" }}>
-                  <span>
-                    {formatDate(article.publishedAt)}
-                  </span>
-                  {authorsBio && (
-                    <span>
-                      {authorsBio.name}
-                    </span>
-                  )}
+              <div className="win95-panel" style={{ height: "100%", padding: 0 }}>
+                {/* Title Bar */}
+                <div className="win95-title-bar">
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <span style={{ fontSize: '14px' }}>{article.icon || '📄'}</span>
+                    <span>{formatDate(article.publishedAt)}</span>
+                  </div>
                 </div>
-                <p style={{ paddingTop: "16px" }}>{article.description}</p>
+
+                {/* Content */}
+                <div style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "8px",
+                  padding: "8px"
+                }}>
+                  {imageUrl && (
+                    <Win95Panel
+                      variant="sunken"
+                      style={{
+                        padding: 0,
+                        overflow: "hidden"
+                      }}
+                    >
+                      <Image
+                        alt="presentation"
+                        width="240"
+                        height="240"
+                        className="object-cover w-full h-44"
+                        src={imageUrl}
+                        style={{ display: "block" }}
+                      />
+                    </Win95Panel>
+                  )}
+
+                  <div className="mx-2 flex-col-auto relative win95-font" >
+                    {avatarUrl && (
+                      <Win95Panel
+                        variant="sunken"
+                        style={{
+                          position: "absolute",
+                          top: "-32px",
+                          right: "0",
+                          padding: 0,
+                          overflow: "hidden"
+                        }}
+                      >
+                        <Image
+                          alt="avatar"
+                          width="64"
+                          height="64"
+                          src={avatarUrl}
+                          style={{
+                            height: "64px",
+                            width: "64px",
+                            objectFit: "cover",
+                            display: "block"
+                          }}
+                        />
+                      </Win95Panel>
+                    )}
+
+                    <h3 className="win95-font-bold" style={{
+                      fontSize: "14px",
+                      color: "var(--win95-button-text)",
+                      marginBottom: "4px"
+                    }}>
+                      {article.title}
+                    </h3>
+
+                    {authorsBio && (
+                      <Win95Panel
+                        variant="sunken"
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          fontSize: "11px",
+                          padding: "4px 8px",
+                          color: "var(--win95-button-text)",
+                          alignSelf: "flex-start"
+                        }}
+                      >
+                        <span>By {authorsBio.name}</span>
+                      </Win95Panel>
+                    )}
+
+                    <p style={{
+                      paddingTop: "4px",
+                      paddingBottom: "8px",
+                      fontSize: "11px",
+                      lineHeight: "1.4",
+                      color: "var(--win95-button-text)"
+                    }}>
+                      {article.description}
+                    </p>
+                  </div>
+                </div>
               </div>
             </Link>
           );
