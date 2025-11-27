@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getStrapiMedia, formatDate } from "../utils/api-helpers";
 import Win95Panel from "./win95/Win95Panel";
+import { getTitleBarColors } from "../utils/title-bar-colors";
 
 interface ContentSection {
   __component: string;
@@ -29,6 +30,9 @@ interface Article {
     name: string;
     slug: string;
     documentId: string;
+    colorPreset?: string;
+    titleBarColorStart?: string;
+    titleBarColorEnd?: string;
   }>;
   // Make authorsBio optional since it may not appear in the API response
   authorsBio?: {
@@ -68,6 +72,9 @@ export default function PostList({
             ? getStrapiMedia(authorsBio.avatar.url)
             : null;
 
+          // Get title bar colors for this category
+          const titleBarColors = getTitleBarColors(category);
+
           return (
             <Link
               href={`${category?.slug || "blog"}/${article.slug}`}
@@ -81,7 +88,12 @@ export default function PostList({
             >
               <div className="win95-panel" style={{ height: "100%", padding: 0 }}>
                 {/* Title Bar */}
-                <div className="win95-title-bar">
+                <div
+                  className="win95-title-bar"
+                  style={{
+                    background: `linear-gradient(to right, ${titleBarColors.start}, ${titleBarColors.end})`
+                  }}
+                >
                   <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                     <span style={{ fontSize: '14px' }}>{article.icon || '📄'}</span>
                     <span>{formatDate(article.publishedAt)}</span>
